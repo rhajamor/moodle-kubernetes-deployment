@@ -1,23 +1,15 @@
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: moodledata-claim
-  labels:
-    app: moodle
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 2Gi
----
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: moodle
   labels:
     app: moodle
+    
 spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: moodle
   strategy:
     type: Recreate
   template:
@@ -42,15 +34,15 @@ spec:
     ]'
     spec:
       containers:
-      - image: jbkc85/docker-moodle
+      - image: bitnami/moodle:latest
         name: moodle
         ports:
         - containerPort: 80
           name: moodle
         resources:
           requests:
-            cpu: 300m
-            memory: 128Mi
+            cpu: "2"
+            memory: 4Gi
         volumeMounts:
         - name: moodledata
           mountPath: /moodle/data

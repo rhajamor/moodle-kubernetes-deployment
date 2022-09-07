@@ -1,0 +1,28 @@
+#A deployment manages scaling and then can create lots of containers, called Pods. 
+#Each Pod is configured following the spec field in the deployment. 
+#Given that, a Deployment can run multiple Traefik Proxy Pods, a piece is required to forward the traffic to any of the instance: namely a Service.
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-dashboard-service
+
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: dashboard
+  selector:
+    app: traefik
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-web-service
+
+spec:
+  type: LoadBalancer
+  ports:
+    - targetPort: web
+      port: 80
+  selector:
+    app: traefik

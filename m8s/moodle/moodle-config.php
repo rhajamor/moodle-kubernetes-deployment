@@ -15,7 +15,7 @@ $CFG->dboptions = array (
   'dbpersist' => 0,
 );
 
-$CFG->wwwroot  = 'http://moodle.local';
+$CFG->wwwroot  = 'http://34.111.255.254/';
 $CFG->dataroot  = '/moodle/data';
 $CFG->admin     = 'admin';
 

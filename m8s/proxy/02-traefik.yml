@@ -1,0 +1,34 @@
+#The ingress controller is a software that runs in the same way as any other application on a cluster. 
+#To start Traefik on the Kubernetes cluster, a Deployment resource must exist to describe how to configure and scale containers horizontally to support larger workloads.
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: traefik-deployment
+  labels:
+    app: traefik
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik
+  template:
+    metadata:
+      labels:
+        app: traefik
+    spec:
+      serviceAccountName: traefik-account
+      containers:
+        - name: traefik
+          image: traefik:v2.8
+#The deployment contains an important attribute for customizing Traefik: args. 
+#These arguments are the static configuration for Traefik. 
+#From here, it is possible to enable the dashboard, configure entry points, select dynamic configuration providers ( https://doc.traefik.io/traefik/reference/static-configuration/cli/ )
+          args:
+            - --api.insecure
+            - --providers.kubernetesingress #When enabling the api.insecure mode, Traefik exposes the dashboard on the port 8080.
+          ports:
+            - name: web
+              containerPort: 80
+            - name: dashboard
+              containerPort: 8080

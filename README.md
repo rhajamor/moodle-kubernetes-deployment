@@ -49,11 +49,15 @@ As mentioned before, we will be using [Traefik](traefik.io).  To get traefik set
 
 ```sh
 
-$ kubectl apply -f m8s/proxy/
+$ kubectl apply -f 00-role.yml \
+              -f 00-account.yml \
+              -f 01-role-binding.yml \
+              -f 02-traefik.yml \
+              -f 02-traefik-services.yml
 
 ```
 
-This will apply a Kubernetes Ingress Provider as well as a WebUI for Traefik.  This is basically taken directly from the [Kubernetes Documentation](https://docs.traefik.io/user-guide/kubernetes/) over at Traefik, so I won't be going too into detail here about it.
+This will apply a Kubernetes Ingress Provider as well as a WebUI for Traefik.  This is basically taken directly from the [Kubernetes Documentation](https://doc.traefik.io/traefik/getting-started/quick-start-with-kubernetes/) over at Traefik, so I won't be going too into detail here about it.
 
 * Traefik Ingress: [proxy/traefik.yaml](m8s/proxy/traefik.yaml)
 * Traefik WebUI: [proxy/traefik-webui.yaml](m8s/proxy/traefik-webui.yaml)

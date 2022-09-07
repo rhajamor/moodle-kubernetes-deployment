@@ -1,0 +1,7 @@
+#after 00-role
+#The next step is to create a dedicated service account for Traefik.
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: traefik-account
