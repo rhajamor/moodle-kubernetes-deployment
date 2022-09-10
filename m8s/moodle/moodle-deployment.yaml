@@ -17,44 +17,30 @@ spec:
       labels:
         app: moodle
         tier: frontend
-      annotations:
-        pod.alpha.kubernetes.io/init-containers: '[
-        {
-            "name": "moodle-init",
-            "image": "alpine:3.5",
-            "imagePullPolicy": "IfNotPresent",
-            "command": ["sh", "-c", "chown -R 33:33 /moodledata", ";", "chmod 2775 /moodledata"],
-            "volumeMounts": [
-                {
-                  "name": "moodledata",
-                  "mountPath": "/moodledata"
-                }
-            ]
-        }
-    ]'
     spec:
       containers:
       - image: bitnami/moodle:latest
         name: moodle
-        ports:
-        - containerPort: 80
-          name: moodle
-        resources:
-          requests:
-            cpu: "2"
-            memory: 4Gi
+        env:
+          - name: ALLOW_EMPTY_PASSWORD
+            value: 'no'
+          - name: MOODLE_DATABASE_USER
+            value: moodle
+          - name: MOODLE_DATABASE_PASSWORD
+            value: moodle
+          - name: MOODLE_DATABASE_NAME
+            value: moodle
+          - name: MOODLE_DATABASE_TYPE
+            value: pgsql
+          - name: MOODLE_DATABASE_HOST
+            value: $REPLACE_WITH_POSTGRES_HOST
+          - name: MOODLE_DATABASE_PORT_NUMBER
+            value: '5432'
         volumeMounts:
         - name: moodledata
           mountPath: /moodle/data
-        - name: config
-          mountPath: /moodle/conf
       volumes:
       - name: moodledata
         persistentVolumeClaim:
           claimName: moodledata-claim
-      - name: config
-        configMap:
-          name: moodle-site-config
-          items:
-          - key: moodle-config.php
-            path: config.php
+
