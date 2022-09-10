@@ -5,12 +5,14 @@ metadata:
   labels:
     app: moodle
 spec:
+  type: NodePort
   ports:
-    - port: 5432
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
   selector:
     app: moodle
     tier: postgresql
-  clusterIP: None
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -45,7 +47,7 @@ spec:
         tier: postgresql
     spec:
       containers:
-      - image: postgres:9.5-alpine
+      - image: 'postgres:latest'
         name: database
         env:
         - name: POSTGRES_DATABASE
