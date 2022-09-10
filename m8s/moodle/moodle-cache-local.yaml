@@ -12,7 +12,7 @@ spec:
     - ReadWriteMany
   nfs: 
       path: /tmp/moodledata
-      server: 10.67.112.178:/moodledata
+      server: $REPLACE_WITH_NFS_MOUNT
 
 ---
 
