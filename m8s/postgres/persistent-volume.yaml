@@ -11,4 +11,4 @@ spec:
     - ReadWriteOnce
   nfs: 
       path: /tmp/pgdata
-      server: 10.67.112.178:/moodledata
+      server: $REPLACE_WITH_NFS_MOUNT
