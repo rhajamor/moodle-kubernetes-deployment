@@ -22,6 +22,10 @@ spec:
       - image: bitnami/moodle:latest
         name: moodle
         env:
+          - name: MOODLE_SKIP_BOOTSTRAP
+            value: 'yes'
+          - name: MOODLE_HOST
+            value: {{route}}
           - name: ALLOW_EMPTY_PASSWORD
             value: 'no'
           - name: MOODLE_DATABASE_USER
